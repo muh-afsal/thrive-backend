@@ -1,12 +1,12 @@
 import { authSignUpEntity } from "../../../../domain/entities";
-import  {User}  from "../models/authCredentials";
+import { User } from "../models/authCredentials";
 
 async function findByEmail(email: string): Promise<authSignUpEntity | null> {
     try {
         const user = await User.findOne({ email });
-        return user;
+        return user || null; 
     } catch (error) {
-        throw error;
+        throw error;  
     }
 }
 

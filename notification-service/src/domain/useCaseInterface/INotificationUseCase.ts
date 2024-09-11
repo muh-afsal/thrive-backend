@@ -1,5 +1,6 @@
 import { Notification } from "../entities/notification";
 
 export interface INotificationRepository {
-  sendNotification(notification: Notification): Promise<void>;
+  sendNotification: any;
+  sendmail(notification: Notification): Promise<void>;
 }

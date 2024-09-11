@@ -20,16 +20,22 @@ const rabbitmqConfig_1 = require("../infrastructure/rabbitMQ/rabbitmqConfig");
 const consumer_1 = require("../infrastructure/rabbitMQ/consumer");
 const config_1 = require("../config/envConfig/config");
 const dependencies_1 = require("../config/dependencies");
-const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORTNUMBER = config_1.PORT || 5002;
-const corsOptions = {
-    origin: String('http://localhost:5173'),
-    credentials: true,
-};
-app.use((0, cors_1.default)(corsOptions));
-app.use(express_1.default.json());
+// const corsOptions = {
+//     origin: String('http://localhost:5173'), 
+//     credentials: true, 
+// };
+// app.use(cors(corsOptions)); 
+app.use((req, res, next) => {
+    if (req.originalUrl === '/webhook') {
+        next();
+    }
+    else {
+        express_1.default.json()(req, res, next);
+    }
+});
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
 app.use('/', (0, userRoutes_1.userRoutes)(dependencies_1.dependencies));

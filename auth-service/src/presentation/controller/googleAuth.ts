@@ -62,10 +62,12 @@ export const googleAuthController = (dependencies: IDependencies) => {
 
       // Generate tokens (access and refresh)
       const userId = user._id?.toString() ?? "";
+      
       const accessToken = generateAccessToken({
         userId,
         userEmail: user.email,
-        role: user.role?.toString() ?? Role.user.toString(),
+        tokenType:'accessToken',
+        role: user.role?.toString(),
         isAdmin: user.isAdmin ?? false,
         isBlocked: user.isBlocked ?? false,
       });
@@ -73,21 +75,30 @@ export const googleAuthController = (dependencies: IDependencies) => {
       const refreshToken = generateRefreshToken({
         userId,
         userEmail: user.email,
-        role: user.role?.toString() ?? Role.user.toString(),
+        tokenType:'refreshToken',
+        role: user.role?.toString() ,
         isAdmin: user.isAdmin ?? false,
         isBlocked: user.isBlocked ?? false,
       });
 
-
+      console.log(accessToken,refreshToken,'7777777777777777777777777');
+      
+      
       res.cookie("accessToken", accessToken, {
-        maxAge: 1000 * 60 * 15,
-        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24, 
+        // httpOnly: true,
+        secure:true,
+        sameSite: 'none'
       });
-
+      
       res.cookie("refreshToken", refreshToken, {
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7, 
+        // httpOnly: true,
+        secure:true,
+        sameSite: 'none'
       });
+      
+      console.log('thsi is token',refreshToken);
 
       return res.status(200).json({ 
         success: true, 

@@ -17,6 +17,9 @@ export const signupController = (dependencies: IDependencies) => {
     try {
       const { firstname, lastname, email, password, phone, otp } = req.body;
 
+      console.log(req.body);
+      
+
       if (otp) {
         // OTP Verification Logic
         const isValid = await verifyOtpUseCase(dependencies).execute(email, otp);
@@ -97,8 +100,16 @@ export const signupController = (dependencies: IDependencies) => {
         console.log(otp,'----- generated otp ----')
         await saveOtpUseCase(dependencies).execute(email, otp);
 
+        const otpdata={
+          email:email,
+          otp:otp
+        }
+
+        await publishCreatedUser("sendOtpQueue", otpdata);
+
         // Send OTP to user
-        await sendOTP(email, otp);
+        // await sendOTP(email, otp);
+
 
         res.status(200).json({ success: true, message: "OTP sent to your email. Please verify to complete signup." });
       }

@@ -13,7 +13,6 @@ exports.completeProfile = void 0;
 const userSchema_1 = require("../../mongodb/models/userSchema");
 const completeProfile = (userData) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(userData.profileImage, 'user data from repo RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
         const updatedUser = yield userSchema_1.User.findByIdAndUpdate(userData._id, {
             $set: {
                 firstname: userData.firstname,

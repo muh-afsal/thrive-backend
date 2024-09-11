@@ -16,7 +16,7 @@ const fetchUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield (0, repositories_1.getUserById)(userId);
         if (user) {
-            console.log(user, 'user data------------------------------');
+            // console.log(user,'user data------------------------------');
             res.status(200).json(user);
         }
         else {

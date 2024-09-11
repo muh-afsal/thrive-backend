@@ -1,6 +1,5 @@
-import { Schema } from "mongoose";
-import mongoose from "mongoose";
-import { userSchemaEntity } from "../../../../domain/entities/userSchemaEntity";
+import mongoose, { Schema, model } from "mongoose";
+import { userSchemaEntity } from "../../../../domain/entities/";
 
 const UserSchema: Schema = new Schema(
   {
@@ -11,16 +10,16 @@ const UserSchema: Schema = new Schema(
     role: { type: String, default: "user" },
     isBlocked: { type: Boolean, default: false },
     phone: { type: String },
-    bio: { type: String}, 
-    address: { type: String }, 
-    profession: { type: String }, 
+    bio: { type: String },
+    address: { type: String },
+    profession: { type: String },
     profileImage: { type: String },
-    
     subscription: [
       {
         paymentStatus: { type: String, enum: ["pending", "paid"] },
         expiration: { type: Date },
         planType: { type: String },
+        isProUser: { type: Boolean, default: false },
         isActive: { type: Boolean, default: true },
       }
     ],

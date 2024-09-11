@@ -1,6 +1,6 @@
 import { IDependencies } from "../interface/IDependencies";
 
-export const getUserUseCase = (dependencies: IDependencies)=> {
+export const fetchUser = (dependencies: IDependencies)=> {
     const {repositories:{getUserById}} = dependencies;
     return {
         execute: async (id:string) => {

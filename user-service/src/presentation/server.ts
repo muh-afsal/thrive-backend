@@ -14,14 +14,22 @@ dotenv.config();
 const app: Application = express();
 const PORTNUMBER: number = PORT || 5002;
 
-const corsOptions = {
-    origin: String('http://localhost:5173'), 
-    credentials: true, 
-};
+// const corsOptions = {
+//     origin: String('http://localhost:5173'), 
+//     credentials: true, 
+// };
 
-app.use(cors(corsOptions)); 
+// app.use(cors(corsOptions)); 
 
-app.use(express.json());
+
+app.use((req, res, next) => {
+    if (req.originalUrl === '/webhook') {
+      next();
+    } else {
+      express.json()(req, res, next);
+    }
+  });
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 

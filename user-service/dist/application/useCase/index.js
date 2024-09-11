@@ -17,3 +17,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./saveUserUseCase"), exports);
 __exportStar(require("./completeProfileUseCase"), exports);
 __exportStar(require("./getUserUseCase"), exports);
+__exportStar(require("./updateSubscriptionDetailsUseCase"), exports);

@@ -1,11 +1,10 @@
-import { User } from '../../mongodb/models/userSchema';
+import {User} from '../../mongodb/models/userSchema';
 import { userSchemaEntity } from '../../../../domain/entities';
 
 export const completeProfile = async (
     userData: userSchemaEntity
 ): Promise<userSchemaEntity | null> => {
     try {
-        console.log(userData.profileImage,'user data from repo RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
         
         const updatedUser = await User.findByIdAndUpdate(
             userData._id,

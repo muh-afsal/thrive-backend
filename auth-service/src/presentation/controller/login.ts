@@ -19,35 +19,47 @@ export const loginController = (dependencies: IDependencies) => {
             const user: authSignUpEntity | null = await loginUserUseCase(dependencies).execute({ email, password });
 
             if (user) {
-                const userId: string = user._id?.toString() ?? "";
+                const userId = user._id?.toString() ?? "";
 
-                // Generate access and refresh tokens
-                const accessToken = generateAccessToken({
-                    userId,
-                    userEmail: user.email,
-                    role: user.role?.toString() ?? "",
-                    isAdmin: user.isAdmin ?? false,
-                    isBlocked: user.isBlocked ?? false,
-                });
 
-                const refreshToken = generateRefreshToken({
-                    userId,
-                    userEmail: user.email,
-                    role: user.role?.toString() ?? "",
-                    isAdmin: user.isAdmin ?? false,
-                    isBlocked: user.isBlocked ?? false,
-                });
 
-                // Set cookies for tokens
-                res.cookie("accessToken", accessToken, {
-                    maxAge: 1000 * 60 * 60 * 24,
-                    httpOnly: true,
-                });
+          const accessToken = generateAccessToken({
+            userId,
+            userEmail: user.email,
+            tokenType:'accessToken',
+            role: user.role?.toString(),
+            isAdmin: user.isAdmin ?? false,
+            isBlocked: user.isBlocked ?? false,
+          });
 
-                res.cookie("refreshToken", refreshToken, {
-                    maxAge: 1000 * 60 * 60 * 24 * 7,
-                    httpOnly: true,
-                });
+          const refreshToken = generateRefreshToken({
+            userId,
+            userEmail: user.email,
+            tokenType:'refreshToken',
+            role: user.role?.toString() ,
+            isAdmin: user.isAdmin ?? false,
+            isBlocked: user.isBlocked ?? false,
+          });
+
+          console.log(accessToken,refreshToken,'7777777777777777777777777');
+          
+          
+          res.cookie("accessToken", accessToken, {
+            maxAge: 1000 * 60 * 60 * 24, 
+            // httpOnly: true,
+            secure:true,
+            sameSite: 'none'
+          });
+          
+          res.cookie("refreshToken", refreshToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 7, 
+            // httpOnly: true,
+            secure:true,
+            sameSite: 'none'
+          });
+          
+          console.log('thsi is token',refreshToken);
+
 
                 res.status(200).json({ success: true, data: user, message: "Login successful", accessToken, refreshToken });
             } else {

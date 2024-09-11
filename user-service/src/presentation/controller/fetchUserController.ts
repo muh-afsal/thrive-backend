@@ -9,7 +9,7 @@ export const fetchUser = async (req: Request, res: Response) => {
     
 
     if (user) {
-      console.log(user,'user data------------------------------');
+      // console.log(user,'user data------------------------------');
       
       res.status(200).json(user);
     } else {

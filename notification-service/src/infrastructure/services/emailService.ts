@@ -1,24 +1,22 @@
 import nodemailer from 'nodemailer';
-import { INotificationRepository } from "../../domain/repositories/INotificationRepository";
-import { Notification } from "../../domain/entities/Notification";
+import { INotificationRepository } from "../../domain/useCaseInterface/INotificationUseCase";
+import { Notification } from "../../domain/entities/notification";
+import { AUTH_EMAIL, AUTH_PASS } from '../../config/envConfig/config';
+export async function sendmail(email: string, otp: string): Promise<void> {
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: AUTH_EMAIL,
+            pass: AUTH_PASS
+        }
+    });
 
-export class EmailService implements INotificationRepository {
-  private transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'your-email@gmail.com',
-      pass: 'your-email-password',
-    },
-  });
-
-  async sendNotification(notification: Notification): Promise<void> {
-    const mailOptions = {
-      from: 'your-email@gmail.com',
-      to: notification.email,
-      subject: 'Your OTP Code',
-      text: `Your OTP code is ${notification.otp}`,
+    let mailOptions = {
+        from: AUTH_EMAIL,
+        to: email,
+        subject: "verify the email using this OTP",
+        html: `<p>Use this OTP to verify your email and continue:</p><b>${otp}</b>`,
     };
 
-    await this.transporter.sendMail(mailOptions);
-  }
+    await transporter.sendMail(mailOptions);
 }

@@ -21,20 +21,19 @@ const Userconsumer = (queueName) => __awaiter(void 0, void 0, void 0, function* 
             if (msg !== null) {
                 try {
                     const user = JSON.parse(msg.content.toString());
-                    console.log('Received user data:', user);
+                    console.log("Received user data:", user);
                     yield (0, saveUser_1.saveUserToDatabase)(user);
-                    // Acknowledge the message
                     channel.ack(msg);
                 }
                 catch (error) {
-                    console.error('Error processing message:', error);
+                    console.error("Error processing message:", error);
                     channel.nack(msg, false, true);
                 }
             }
         }));
     }
     else {
-        console.error('Channel is not available');
+        console.error("Channel is not available");
     }
 });
 exports.Userconsumer = Userconsumer;

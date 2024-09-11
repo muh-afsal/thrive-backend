@@ -14,13 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.completeProfileController = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const hashpassword_1 = require("../../utils/bcrypt/hashpassword");
 const completeProfileController = (dependencies) => {
     const { useCases: { completeProfileUseCase }, } = dependencies;
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { accessToken } = req.cookies;
             const userData = req.body;
-            console.log(userData, 'thisis the new data of user ____________');
+            console.log(userData, "this is the new data of user ____________");
             if (!accessToken) {
                 res.status(400).json({ message: "Access token is missing." });
                 return;
@@ -28,9 +29,11 @@ const completeProfileController = (dependencies) => {
             const decodedAccessToken = jsonwebtoken_1.default.decode(accessToken);
             const { userId } = decodedAccessToken;
             const _id = userId;
+            if (userData.password) {
+                userData.password = yield (0, hashpassword_1.hashPassword)(userData.password);
+            }
             const completeData = Object.assign(Object.assign({}, userData), { _id });
             const updatedUser = yield completeProfileUseCase(dependencies).execute(completeData);
-            // console.log(updatedUser,'update user from cp controller666666666666');
             res.status(200).json({
                 message: "Profile completed successfully!",
                 _id,

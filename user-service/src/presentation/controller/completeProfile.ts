@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { IDependencies } from "../../application/interface/IDependencies";
 import { userSchemaEntity } from "../../domain/entities";
+import { hashPassword } from "../../utils/bcrypt/hashpassword";
 
 export const completeProfileController = (dependencies: IDependencies) => {
   const {
@@ -12,13 +13,13 @@ export const completeProfileController = (dependencies: IDependencies) => {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise< userSchemaEntity | void> => {
+  ): Promise<userSchemaEntity | void> => {
     try {
       const { accessToken } = req.cookies;
       const userData = req.body;
 
-       console.log(userData,'thisis the new data of user ____________');
-       
+      console.log(userData, "this is the new data of user ____________");
+
       if (!accessToken) {
         res.status(400).json({ message: "Access token is missing." });
         return;
@@ -26,15 +27,15 @@ export const completeProfileController = (dependencies: IDependencies) => {
 
       const decodedAccessToken = jwt.decode(accessToken);
       const { userId } = decodedAccessToken as JwtPayload;
-      const _id=userId;
+      const _id = userId;
 
-     
+      if (userData.password) {
+        userData.password = await hashPassword(userData.password);
+      }
+
       const completeData = { ...userData, _id };
-      
-      const updatedUser = await completeProfileUseCase(dependencies).execute(completeData);
 
-      // console.log(updatedUser,'update user from cp controller666666666666');
-      
+      const updatedUser = await completeProfileUseCase(dependencies).execute(completeData);
 
       res.status(200).json({
         message: "Profile completed successfully!",
