@@ -1,6 +1,6 @@
-import {authSignUpEntity} from "../entities/authSignupEntity";
+import {userSchemaEntity} from "../entities/userSchemaEntity";
 
 
 export interface IFindUserByEmailUseCase{
-    execute(email:string):Promise< authSignUpEntity| null>
+    execute(email:string):Promise< userSchemaEntity| null>
 }

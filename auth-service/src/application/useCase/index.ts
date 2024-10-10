@@ -4,3 +4,8 @@ export * from './findUserByEmailUseCase'
 export * from './saveOtpUseCase'
 export * from './verifyOtpUseCase'
 export * from './generateOtpUseCase'
+export * from './completeProfileUseCase'
+export * from './otpUseCase'
+export * from './getUserUseCase'
+export * from './saveUserUseCase'
+

@@ -3,7 +3,7 @@ import { IDependencies } from "../../application/interface/IDependencies";
 import { verifyOtpUseCase, saveOtpUseCase, generateOtpUseCase } from "../../application/useCase";
 import { hashPassword } from "../../utils/bcrypt/hashpassword";
 import { sendOTP } from "../../utils/otp/sendOTP";
-import { Role } from "../../domain/entities/authSignupEntity";
+import { Role } from "../../domain/entities/userSchemaEntity";
 import { publishCreatedUser } from "../../infrastructure/rabbitMQ/publisher";
 import { generateAccessToken } from "../../utils/jwt/generateAccessToken";
 import { generateRefreshToken } from "../../utils/jwt/generateRefreshToken";
@@ -17,7 +17,6 @@ export const signupController = (dependencies: IDependencies) => {
     try {
       const { firstname, lastname, email, password, phone, otp } = req.body;
 
-      console.log(req.body);
       
 
       if (otp) {
@@ -80,7 +79,6 @@ export const signupController = (dependencies: IDependencies) => {
             sameSite: 'none'
           });
           
-          console.log('thsi is token',refreshToken);
           await publishCreatedUser("userDataQueue", user);
 
           res.status(201).json({ success: true, data: user, message: "User created" });

@@ -1,9 +1,12 @@
-import { authLoginEntity, authSignUpEntity } from "../../domain/entities";
+import { authLoginEntity, userSchemaEntity } from "../../domain/entities";
 
 export interface IRepositories {
-    signup: (data: authSignUpEntity) => Promise<authSignUpEntity | null>;
-    login: (data: authLoginEntity) => Promise<authSignUpEntity | null>;
-    findByEmail: (data: string) => Promise<authSignUpEntity | null>;
+    signup: (data: userSchemaEntity) => Promise<userSchemaEntity | null>;
+    login: (data: authLoginEntity) => Promise<userSchemaEntity | null>;
+    findByEmail: (data: string) => Promise<userSchemaEntity | null>;
     saveOTP: (email: string, otp: string) => Promise<void>;
     verifyOTP: (email: string, submittedOTP: string) => Promise<boolean>;
+    saveUserToDatabase: (data: userSchemaEntity) => Promise<userSchemaEntity | null>;
+    completeProfile: (data: userSchemaEntity) => Promise<userSchemaEntity | null>;
+    getUserById: (id: string) => Promise<userSchemaEntity | null>;
 }

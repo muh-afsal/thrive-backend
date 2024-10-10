@@ -1,10 +1,10 @@
-import { authSignUpEntity } from "../../domain/entities";
+import { userSchemaEntity } from "../../domain/entities";
 import { IDependencies } from "../interface/IDependencies";
 
 export const signupUserUseCase=(dependencies:IDependencies)=>{
     const {repositories:{signup}} = dependencies;
     return{
-        execute:async (data:authSignUpEntity)=>{
+        execute:async (data:userSchemaEntity)=>{
             try{
                 return await signup(data)
             }catch(error:any){

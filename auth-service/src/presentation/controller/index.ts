@@ -5,7 +5,11 @@ import { googleAuthController } from "./googleAuth"
 import { resendOtpController } from "./resendOtp";
 import { checkEmailController } from "./checkEmail";
 import { verifyOtpController } from "./verifyOtp";
-import { verify } from "jsonwebtoken";
+import { completeProfileController } from "./completeProfile";
+import { fetchUser } from "./fetchUserController";
+import { changePasswordController } from "./changePassword";
+import { logoutController } from "./logoutUser";
+import { changeEmailController } from "./changeEmail";
 
 export const controllers = (dependencies: IDependencies)=>{
     
@@ -15,7 +19,12 @@ export const controllers = (dependencies: IDependencies)=>{
         googleAuth: googleAuthController(dependencies),
         resendOtp:resendOtpController(dependencies),
         checkEmail:checkEmailController(dependencies),
-        verifyotp:verifyOtpController(dependencies)
+        verifyotp:verifyOtpController(dependencies),
+        completeProfile: completeProfileController(dependencies),
+        fetchUser: fetchUser,
+        changePassword:changePasswordController,
+        logoutUser:logoutController,
+        changeEmail:changeEmailController,
 
     }
 }

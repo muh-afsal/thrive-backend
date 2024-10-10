@@ -1,9 +1,9 @@
-import {User} from "../models/authCredentials"
-import { authSignUpEntity } from "../../../../domain/entities"
+import {User} from "../models/UserSchema"
+import { userSchemaEntity } from "../../../../domain/entities"
 
 export const signup = async (
-    data: authSignUpEntity
-) : Promise<authSignUpEntity | null > => {
+    data: userSchemaEntity
+) : Promise<userSchemaEntity | null > => {
     try {
         console.log(data,"reached sighn up repository ----");
         
@@ -14,7 +14,7 @@ export const signup = async (
             throw new Error("User creation failed!");
         }
 
-        return newUser as authSignUpEntity;
+        return newUser as userSchemaEntity;
     } catch (error: any) {
         throw new Error(error?.message);
     }

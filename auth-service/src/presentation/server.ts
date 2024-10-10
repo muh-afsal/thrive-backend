@@ -7,7 +7,8 @@ import { errorHandler } from "../utils/error/errorHandler";
 import { authRoutes } from "../infrastructure/routes/authRoutes";
 import { dependencies } from "../config/dependencies";
 import { connectRabbitMQ } from "../infrastructure/rabbitMQ/rabbitmqConfig";
-
+import { userRoutes } from "../infrastructure/routes/userRoutes";
+import morgan from 'morgan'
 
 dotenv.config();
 
@@ -21,13 +22,23 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions)); 
-
+app.use(morgan('tiny'))
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/', authRoutes(dependencies));
+app.use('/user', userRoutes(dependencies));
+
+// app.use('/', (req, res) => {
+//     console.log('This is the REST API');
+//     res.json({ message: 'This is auth api return' });
+// });
+// app.use('/user', (req, res) => {
+//     console.log('This is the REST API');
+//     res.json({ message: 'This is user api return' });
+// });
 
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
     res.status(404).send("API not found: auth service");

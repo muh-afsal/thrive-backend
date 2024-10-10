@@ -22,8 +22,9 @@ app.use((0, cookie_parser_1.default)());
 //     console.log("hello....");
 //     res.json({success:"heeloooo"})
 // })
-app.use('/auth', (0, express_http_proxy_1.default)('http://localhost:5001'));
-app.use('/user', (0, express_http_proxy_1.default)('http://localhost:5002'));
+app.use('/api/auth', (0, express_http_proxy_1.default)('http://localhost:5001'));
+app.use('/api/payment', (0, express_http_proxy_1.default)('http://localhost:5002'));
+app.use('/api/media', (0, express_http_proxy_1.default)('http://localhost:5004'));
 // app.use('/user',(req,res)=>{
 //        console.log('reched herer 00000000000000000');
 // })

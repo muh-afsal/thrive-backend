@@ -3,7 +3,7 @@ import { IDependencies } from "../../application/interface/IDependencies";
 import { controllers } from "../../presentation/controller";
 
 export const authRoutes = (dependencies: IDependencies) => {
-  const { signup,login,googleAuth,resendOtp,checkEmail,verifyotp } = controllers(dependencies);
+  const { signup,login,googleAuth,resendOtp,checkEmail,verifyotp,changeEmail } = controllers(dependencies);
 
   const router = Router();
 
@@ -13,6 +13,7 @@ export const authRoutes = (dependencies: IDependencies) => {
   router.route("/resend-otp").post(resendOtp);
   router.route("/check-email").post(checkEmail);
   router.route("/verify-otp").post(verifyotp);
+  router.route("/change-email").post(changeEmail);
 
   return router;
 

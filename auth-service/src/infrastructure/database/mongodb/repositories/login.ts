@@ -1,4 +1,4 @@
-import {User}  from "../models/authCredentials";
+import {User}  from "../models/UserSchema";
 import { authSignUpEntity } from "../../../../domain/entities";
 import { authLoginEntity } from "../../../../domain/entities";
 import bcrypt from "bcrypt"

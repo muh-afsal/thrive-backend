@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { IDependencies } from "../../application/interface/IDependencies";
 import { generateAccessToken } from "../../utils/jwt/generateAccessToken";
 import { generateRefreshToken } from "../../utils/jwt/generateRefreshToken";
-import { authSignUpEntity } from "../../domain/entities";
+import { userSchemaEntity } from "../../domain/entities";
 
 export const loginController = (dependencies: IDependencies) => {
     const { useCases: { loginUserUseCase } } = dependencies;
@@ -16,7 +16,10 @@ export const loginController = (dependencies: IDependencies) => {
                 return;
             }
 
-            const user: authSignUpEntity | null = await loginUserUseCase(dependencies).execute({ email, password });
+            const user: userSchemaEntity | null = await loginUserUseCase(dependencies).execute({ email, password });
+
+            console.log(user,'thisis the response of login');
+            
 
             if (user) {
                 const userId = user._id?.toString() ?? "";
@@ -41,7 +44,6 @@ export const loginController = (dependencies: IDependencies) => {
             isBlocked: user.isBlocked ?? false,
           });
 
-          console.log(accessToken,refreshToken,'7777777777777777777777777');
           
           
           res.cookie("accessToken", accessToken, {
@@ -58,7 +60,6 @@ export const loginController = (dependencies: IDependencies) => {
             sameSite: 'none'
           });
           
-          console.log('thsi is token',refreshToken);
 
 
                 res.status(200).json({ success: true, data: user, message: "Login successful", accessToken, refreshToken });

@@ -5,7 +5,7 @@ import { GOOGLE_CLIENT_ID } from "../../config/envConfig/config";
 import { hashPassword } from "../../utils/bcrypt/hashpassword";
 import { generateAccessToken } from "../../utils/jwt/generateAccessToken";
 import { generateRefreshToken } from "../../utils/jwt/generateRefreshToken";
-import { Role } from "../../domain/entities/authSignupEntity";
+import { Role } from "../../domain/entities/userSchemaEntity";
 import { publishCreatedUser } from "../../infrastructure/rabbitMQ/publisher";
 
 export const googleAuthController = (dependencies: IDependencies) => {
@@ -50,7 +50,6 @@ export const googleAuthController = (dependencies: IDependencies) => {
           isBlocked: false,
         });
 
-        console.log(user,'user created hererererere-------------');
         
 
         if (user) {
@@ -81,7 +80,6 @@ export const googleAuthController = (dependencies: IDependencies) => {
         isBlocked: user.isBlocked ?? false,
       });
 
-      console.log(accessToken,refreshToken,'7777777777777777777777777');
       
       
       res.cookie("accessToken", accessToken, {
@@ -98,7 +96,6 @@ export const googleAuthController = (dependencies: IDependencies) => {
         sameSite: 'none'
       });
       
-      console.log('thsi is token',refreshToken);
 
       return res.status(200).json({ 
         success: true, 

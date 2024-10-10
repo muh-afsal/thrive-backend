@@ -1,5 +1,5 @@
-import { authSignUpEntity } from "../entities";
+import { userSchemaEntity } from "../entities";
 
 export interface ISignupUserUseCase {
-  execute(user: authSignUpEntity): Promise<authSignUpEntity | null>;
+  execute(user: userSchemaEntity): Promise<userSchemaEntity | null>;
 }
