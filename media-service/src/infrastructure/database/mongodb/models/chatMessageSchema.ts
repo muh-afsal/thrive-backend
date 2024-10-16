@@ -15,7 +15,7 @@ const chatMessageSchema: Schema<ChatMessageEntity> = new Schema(
       type: [
         {
           url: { type: String },
-          localPath: { type: String }, 
+          type: { type: String }, 
         },
       ],
       default: [],

@@ -38,7 +38,7 @@ const chatMessageSchema = new mongoose_1.Schema({
         type: [
             {
                 url: { type: String },
-                localPath: { type: String },
+                type: { type: String },
             },
         ],
         default: [],

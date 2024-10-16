@@ -10,7 +10,7 @@ export const sendChatMessageController = (dependencies: IDependencies) => {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { sender, content, attachments, chat } = req.body;
-// console.log(req.body);
+      
 
    
       const chatMessageData: Partial<ChatMessageEntity> =({

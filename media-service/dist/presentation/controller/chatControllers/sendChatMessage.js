@@ -15,7 +15,6 @@ const sendChatMessageController = (dependencies) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { sender, content, attachments, chat } = req.body;
-            // console.log(req.body);
             const chatMessageData = ({
                 sender: sender || undefined,
                 content,

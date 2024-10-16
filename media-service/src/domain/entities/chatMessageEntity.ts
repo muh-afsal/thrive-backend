@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface IAttachment {
   url: string;
-  localPath: string;
+  type: string;
 }
 
 export interface ChatMessageEntity extends Document {

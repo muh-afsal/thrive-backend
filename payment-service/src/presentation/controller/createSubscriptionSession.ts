@@ -16,7 +16,6 @@ export const createSubscriptionSessionController = (dependencies: IDependencies)
   return async (req: Request, res: Response, next: NextFunction) => {
     const { email, userId } = req.body;
     const priceId='price_1PyoRlAfLu7cproE7f47cOFQ'
-    const productId='prod_QqVSgbNF1Ik6VG'
 
     
 

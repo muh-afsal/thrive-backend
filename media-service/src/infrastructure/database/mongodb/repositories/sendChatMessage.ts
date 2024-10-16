@@ -1,7 +1,9 @@
 import { ChatMessage } from '../models/chatMessageSchema';
 import { ChatMessageEntity } from '../../../../domain/entities/chatMessageEntity'; 
+import { LogError } from 'concurrently';
 
 export const sendChatMessage = async (chatData: ChatMessageEntity) => {
+  
   try {
     const message = new ChatMessage({
       sender: chatData.sender,

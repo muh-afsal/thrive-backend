@@ -25,7 +25,6 @@ const createSubscriptionSessionController = (dependencies) => {
         var _a;
         const { email, userId } = req.body;
         const priceId = 'price_1PyoRlAfLu7cproE7f47cOFQ';
-        const productId = 'prod_QqVSgbNF1Ik6VG';
         if (!email || !userId) {
             return res
                 .status(400)
