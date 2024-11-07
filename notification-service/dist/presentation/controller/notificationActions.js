@@ -8,19 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = __importDefault(require("./presentation/server"));
-const dbConnection_1 = __importDefault(require("./infrastructure/database/dbConnection"));
-(() => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        server_1.default;
-        yield (0, dbConnection_1.default)();
-    }
-    catch (error) {
-        console.error((error === null || error === void 0 ? void 0 : error.message) || 'An error occurred in server connection');
-        process.exit(1);
-    }
-}))();
+exports.addBlogController = void 0;
+const addBlogController = (dependencies) => {
+    const { useCases: { addBlogUseCase }, } = dependencies;
+    return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+        }
+        catch (error) {
+            console.error("Error adding/updating blog:", error);
+            res.status(400).json({ message: "Server error", error: error.message });
+        }
+    });
+};
+exports.addBlogController = addBlogController;

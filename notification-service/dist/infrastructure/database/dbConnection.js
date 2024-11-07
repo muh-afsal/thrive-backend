@@ -12,15 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = __importDefault(require("./presentation/server"));
-const dbConnection_1 = __importDefault(require("./infrastructure/database/dbConnection"));
-(() => __awaiter(void 0, void 0, void 0, function* () {
+const mongoose_1 = __importDefault(require("mongoose"));
+const config_1 = require("../../config/envConfig/config");
+exports.default = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        server_1.default;
-        yield (0, dbConnection_1.default)();
+        const mongoUrl = config_1.MONGODB_URL;
+        console.log(mongoUrl);
+        if (!mongoUrl) {
+            throw new Error("MongoDB connection string not provided in environment variables");
+        }
+        yield mongoose_1.default.connect(mongoUrl.trim());
+        console.log(` 🍃🍃🍃🍃🍃🍃 MongoDB connected successfully to media database!🍃🍃🍃🍃🍃🍃`);
     }
     catch (error) {
-        console.error((error === null || error === void 0 ? void 0 : error.message) || 'An error occurred in server connection');
+        console.error(`🍁🍁🍁🍁🍁 Database Connection failed 🍁🍁🍁🍁🍁`);
+        console.error(error.message);
         process.exit(1);
     }
-}))();
+});

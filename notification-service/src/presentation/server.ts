@@ -7,6 +7,8 @@ import { PORT } from "../config/envConfig/config";
 // import { dependencies } from "../config/dependencies";
 import { connectRabbitMQ } from "../infrastructure/rabbitMQ/rabbitmqConfig";
 import { notificationConsumer } from "../infrastructure/rabbitMQ/consumer";
+import connectSocketIo from "../infrastructure/socket";
+import http from 'http'
 
 
 dotenv.config();
@@ -17,17 +19,23 @@ const PORTNUMBER: number = PORT || 5003;
 
 const corsOptions = {
     origin: String('http://localhost:5173'), 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, 
 };
+
 
 app.use(cors(corsOptions)); 
 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+const server = http.createServer(app);
 app.use(cookieParser());
 
 // app.use('/', authRoutes(dependencies));
+connectSocketIo(server)
+
+
 
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
     res.status(404).send("API not found: auth service");
@@ -40,6 +48,7 @@ app.listen(PORTNUMBER, async () => {
     console.log(`User service running on port ${PORTNUMBER}`);
     await connectRabbitMQ();  
     await notificationConsumer('sendOtpQueue'); 
+    await notificationConsumer('sendEventEmailQueue'); 
 });
 
 

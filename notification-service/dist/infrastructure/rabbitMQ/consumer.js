@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.notificationConsumer = void 0;
 const rabbitmqConfig_1 = require("./rabbitmqConfig");
 const emailService_1 = require("../../infrastructure/services/emailService");
-// import { saveUserToDatabase } from '../../infrastructure/database/mongodb/repositories/saveUser';
 const notificationConsumer = (queueName) => __awaiter(void 0, void 0, void 0, function* () {
     const channel = (0, rabbitmqConfig_1.getChannel)();
     if (channel) {
@@ -21,11 +20,21 @@ const notificationConsumer = (queueName) => __awaiter(void 0, void 0, void 0, fu
         channel.consume(queueName, (msg) => __awaiter(void 0, void 0, void 0, function* () {
             if (msg !== null) {
                 try {
-                    const otpdata = JSON.parse(msg.content.toString());
-                    console.log('Received user data:', otpdata);
-                    const { email, otp } = otpdata;
-                    const res = yield (0, emailService_1.sendmail)(email, otp);
-                    console.log(res);
+                    const data = JSON.parse(msg.content.toString());
+                    console.log('Received data from the queue:', data);
+                    if (queueName === 'sendOtpQueue') {
+                        const { email, otp } = data;
+                        const result = yield (0, emailService_1.sendmail)(email, otp);
+                        console.log('OTP email sent:', result);
+                    }
+                    // else if (queueName === 'sendEventEmailQueue') {
+                    //     const { members, eventDetails, admin } = data;
+                    //     const adminInfo = admin;
+                    //     for (const member of members) {
+                    //         const result = await eventNotifyEmail(member.email, eventDetails, adminInfo);
+                    //         console.log(`Event notification email sent to ${member.email}:`, result);
+                    //     }
+                    // }
                     channel.ack(msg);
                 }
                 catch (error) {
