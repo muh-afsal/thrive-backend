@@ -13,9 +13,9 @@ exports.fetchAllChatsUseCase = void 0;
 const fetchAllChatsUseCase = (dependencies) => {
     const { repositories: { fetchAllChats } } = dependencies;
     return {
-        execute: () => __awaiter(void 0, void 0, void 0, function* () {
+        execute: (userId) => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                const allChats = yield fetchAllChats();
+                const allChats = yield fetchAllChats(userId);
                 return allChats;
             }
             catch (error) {

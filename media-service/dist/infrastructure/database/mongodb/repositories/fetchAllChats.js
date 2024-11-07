@@ -11,13 +11,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchAllChats = void 0;
 const chatSchema_1 = require("../models/chatSchema");
-const fetchAllChats = () => __awaiter(void 0, void 0, void 0, function* () {
+const mongoose_1 = require("mongoose");
+const fetchAllChats = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allChats = yield chatSchema_1.Chat.find()
+        if (!userId || !mongoose_1.Types.ObjectId.isValid(userId)) {
+            return [];
+        }
+        const allChats = yield chatSchema_1.Chat.find({
+            participants: userId,
+        })
             .populate({
             path: 'participants',
             match: { role: 'user' },
             select: 'firstname lastname email phone profileImage',
+        })
+            .populate({
+            path: 'lastMessage',
+            select: 'content',
         })
             .exec();
         return allChats;

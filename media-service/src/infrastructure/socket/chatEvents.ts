@@ -12,9 +12,9 @@ const handleChatEvents = (socket: Socket, io: any, userSocketMap: Record<string,
     const { obj } = data;
     const roomId = obj.chat;
     const chatData = data.obj;
+    
 
     const { attachments, chat, content, sender, createdAt, _id } = chatData;
-    console.log(attachments,'kkkkkkkkkkkkkkkkkkkkkkk');
     
     const senderId = obj.sender;
 

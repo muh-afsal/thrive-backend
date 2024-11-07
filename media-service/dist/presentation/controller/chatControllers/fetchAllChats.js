@@ -14,11 +14,8 @@ const fetchAllChatsController = (dependencies) => {
     const { useCases: { fetchAllChatsUseCase }, } = dependencies;
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const chats = yield fetchAllChatsUseCase(dependencies).execute();
-            // const users=chats?.map((user)=>{
-            //   //  console.log(user);
-            //    console.log(user,'999999999999999999999999999999999999999999');
-            // })
+            const { userId } = req.params;
+            const chats = yield fetchAllChatsUseCase(dependencies).execute(userId);
             res.status(200).json({
                 success: true,
                 message: "Chats fetched successfully",

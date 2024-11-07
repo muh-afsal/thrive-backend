@@ -18,3 +18,5 @@ __exportStar(require("./userSchemaEntity"), exports);
 __exportStar(require("./chatEntity"), exports);
 __exportStar(require("./chatMessageEntity"), exports);
 __exportStar(require("./notification"), exports);
+__exportStar(require("./callLogsEntity"), exports);
+__exportStar(require("./blogEntity"), exports);

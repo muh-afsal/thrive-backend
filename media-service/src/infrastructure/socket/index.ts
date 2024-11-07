@@ -14,8 +14,7 @@ const connectSocketIo = (server: Server) => {
   });
 
   const userSocketMap: { [key: string]: string } = {};
-
-  const rooms: Record<string, string[]> = {};
+  const rooms: Record<string, { users: string[]; host: string }> = {};
 
   io.on("connection", (socket: Socket) => {
     console.log("Socket Connected", socket.id);
@@ -29,7 +28,21 @@ const connectSocketIo = (server: Server) => {
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
     handleChatEvents(socket, io, userSocketMap);
-    handleCallEvents(socket, io, rooms);
+    handleCallEvents(socket, io, rooms); // Centralized event handling
+
+    socket.on("createRoom", (roomId: string, hostId: string) => {
+      rooms[roomId] = { users: [hostId], host: hostId };
+      socket.join(roomId);
+      io.to(roomId).emit("roomCreated", { roomId, hostId });
+    });
+
+    socket.on("joinRoom", (roomId: string) => {
+      if (rooms[roomId]) {
+        rooms[roomId].users.push(userId);
+        socket.join(roomId);
+        io.to(roomId).emit("userJoined", { userId });
+      }
+    });
 
     socket.on("disconnect", (reason) => {
       console.log(`User disconnected: ${reason}`);
@@ -40,17 +53,18 @@ const connectSocketIo = (server: Server) => {
 
       if (disconnectedUserId) {
         for (const roomId in rooms) {
-          if (rooms[roomId].includes(disconnectedUserId)) {
-            rooms[roomId] = rooms[roomId].filter(
+          const room = rooms[roomId];
+          if (room.users.includes(disconnectedUserId)) {
+            room.users = room.users.filter(
               (peerId) => peerId !== disconnectedUserId
             );
 
             io.to(roomId).emit("user-disconnected", {
               peerId: disconnectedUserId,
-              remainingParticipants: rooms[roomId],
+              remainingParticipants: room.users,
             });
 
-            if (rooms[roomId].length === 0) {
+            if (room.users.length === 0) {
               delete rooms[roomId];
             }
           }

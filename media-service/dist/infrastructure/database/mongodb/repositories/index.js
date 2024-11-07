@@ -20,3 +20,6 @@ __exportStar(require("./createAChat"), exports);
 __exportStar(require("./fetchAllChats"), exports);
 __exportStar(require("./sendChatMessage"), exports);
 __exportStar(require("./fetchAllChatMessages"), exports);
+__exportStar(require("./blogRepositories/addBlogRepo"), exports);
+__exportStar(require("./blogRepositories/getBlogRepo"), exports);
+__exportStar(require("./eventRepositories/eventRepo"), exports);

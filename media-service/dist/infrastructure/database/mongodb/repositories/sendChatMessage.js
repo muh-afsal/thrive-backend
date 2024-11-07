@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendChatMessage = void 0;
 const chatMessageSchema_1 = require("../models/chatMessageSchema");
+const chatSchema_1 = require("../models/chatSchema");
 const sendChatMessage = (chatData) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const message = new chatMessageSchema_1.ChatMessage({
@@ -20,6 +21,7 @@ const sendChatMessage = (chatData) => __awaiter(void 0, void 0, void 0, function
             chat: chatData.chat,
         });
         const savedMessage = yield message.save();
+        yield chatSchema_1.Chat.findByIdAndUpdate(chatData.chat, { lastMessage: savedMessage._id }, { new: true });
         return savedMessage;
     }
     catch (error) {

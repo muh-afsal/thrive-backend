@@ -10,7 +10,6 @@ const handleChatEvents = (socket, io, userSocketMap) => {
         const roomId = obj.chat;
         const chatData = data.obj;
         const { attachments, chat, content, sender, createdAt, _id } = chatData;
-        console.log(attachments, 'kkkkkkkkkkkkkkkkkkkkkkk');
         const senderId = obj.sender;
         io.to(roomId).emit("receiveMessage", {
             _id,
