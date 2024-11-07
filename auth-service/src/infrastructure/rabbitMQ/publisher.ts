@@ -1,6 +1,6 @@
 import { getChannel } from './rabbitmqConfig';
 
-export const publishCreatedUser = async (queueName: string, message: any) => {
+export const publishToQueue = async (queueName: string, message: any) => {
     try {
         const channel = await getChannel();
         await channel.assertQueue(queueName, { durable: true });

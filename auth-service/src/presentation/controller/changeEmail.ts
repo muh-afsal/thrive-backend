@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../../infrastructure/database/mongodb/models/UserSchema';
-import { publishCreatedUser } from '../../infrastructure/rabbitMQ/publisher';
+import { publishToQueue } from '../../infrastructure/rabbitMQ/publisher';
 
 export const changeEmailController = async (req: Request, res: Response) => {
   const { currentEmail, newEmail } = req.body;
@@ -22,7 +22,7 @@ export const changeEmailController = async (req: Request, res: Response) => {
     user.email = newEmail;
     await user.save();
 
-    await publishCreatedUser("userDataQueue", user);
+    await publishToQueue("userDataQueue", user);
 
     res.status(200).json({ message: 'Email updated successfully', success:true });
   } catch (error) {

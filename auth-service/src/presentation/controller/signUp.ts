@@ -4,7 +4,7 @@ import { verifyOtpUseCase, saveOtpUseCase, generateOtpUseCase } from "../../appl
 import { hashPassword } from "../../utils/bcrypt/hashpassword";
 import { sendOTP } from "../../utils/otp/sendOTP";
 import { Role } from "../../domain/entities/userSchemaEntity";
-import { publishCreatedUser } from "../../infrastructure/rabbitMQ/publisher";
+import { publishToQueue } from "../../infrastructure/rabbitMQ/publisher";
 import { generateAccessToken } from "../../utils/jwt/generateAccessToken";
 import { generateRefreshToken } from "../../utils/jwt/generateRefreshToken";
 
@@ -79,7 +79,7 @@ export const signupController = (dependencies: IDependencies) => {
             sameSite: 'none'
           });
           
-          await publishCreatedUser("userDataQueue", user);
+          await publishToQueue("userDataQueue", user);
 
           res.status(201).json({ success: true, data: user, message: "User created" });
         } else {
@@ -103,7 +103,7 @@ export const signupController = (dependencies: IDependencies) => {
           otp:otp
         }
 
-        await publishCreatedUser("sendOtpQueue", otpdata);
+        await publishToQueue("sendOtpQueue", otpdata);
 
         // Send OTP to user
         // await sendOTP(email, otp);

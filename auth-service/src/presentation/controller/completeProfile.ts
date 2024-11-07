@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { IDependencies } from "../../application/interface/IDependencies";
 import { userSchemaEntity } from "../../domain/entities";
 import { hashPassword } from "../../utils/bcrypt/hashpassword";
-import { publishCreatedUser } from "../../infrastructure/rabbitMQ/publisher";
+import { publishToQueue } from "../../infrastructure/rabbitMQ/publisher";
 
 export const completeProfileController = (dependencies: IDependencies) => {
   
@@ -40,7 +40,7 @@ export const completeProfileController = (dependencies: IDependencies) => {
 
       const updatedUser = await completeProfileUseCase(dependencies).execute(completeData);
 
-      await publishCreatedUser("userDataQueue", updatedUser);
+      await publishToQueue("userDataQueue", updatedUser);
 
       res.status(200).json({
         message: "Profile completed successfully!",

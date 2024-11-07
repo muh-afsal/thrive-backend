@@ -6,7 +6,7 @@ import { hashPassword } from "../../utils/bcrypt/hashpassword";
 import { generateAccessToken } from "../../utils/jwt/generateAccessToken";
 import { generateRefreshToken } from "../../utils/jwt/generateRefreshToken";
 import { Role } from "../../domain/entities/userSchemaEntity";
-import { publishCreatedUser } from "../../infrastructure/rabbitMQ/publisher";
+import { publishToQueue } from "../../infrastructure/rabbitMQ/publisher";
 
 export const googleAuthController = (dependencies: IDependencies) => {
   const {
@@ -53,7 +53,7 @@ export const googleAuthController = (dependencies: IDependencies) => {
         
 
         if (user) {
-          await publishCreatedUser("userDataQueue", user);
+          await publishToQueue("userDataQueue", user);
         } else {
           return res.status(500).json({ success: false, message: "User creation failed" });
         }
