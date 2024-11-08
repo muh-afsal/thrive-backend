@@ -24,6 +24,7 @@ app.use(cookieParser())
 
 app.use('/api/auth',proxy('http://localhost:5001'))
 app.use('/api/payment',proxy('http://localhost:5002'))
+app.use('/api/notification',proxy('http://localhost:5003'))
 app.use('/api/media',proxy('http://localhost:5004'))
 // app.use('/user',(req,res)=>{
 //        console.log('reched herer 00000000000000000');

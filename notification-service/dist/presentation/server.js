@@ -21,8 +21,9 @@ const config_1 = require("../config/envConfig/config");
 // import { dependencies } from "../config/dependencies";
 const rabbitmqConfig_1 = require("../infrastructure/rabbitMQ/rabbitmqConfig");
 const consumer_1 = require("../infrastructure/rabbitMQ/consumer");
-const socket_1 = __importDefault(require("../infrastructure/socket"));
 const http_1 = __importDefault(require("http"));
+const notificationRoutes_1 = require("../infrastructure/routes/notificationRoutes");
+const dependencies_1 = require("../config/dependencies");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORTNUMBER = config_1.PORT || 5003;
@@ -36,8 +37,8 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 const server = http_1.default.createServer(app);
 app.use((0, cookie_parser_1.default)());
-// app.use('/', authRoutes(dependencies));
-(0, socket_1.default)(server);
+app.use('/', (0, notificationRoutes_1.notificationRoutes)(dependencies_1.dependencies));
+// connectSocketIo(server)
 app.use("*", (req, res, next) => {
     res.status(404).send("API not found: auth service");
 });

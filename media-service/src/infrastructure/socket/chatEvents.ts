@@ -14,7 +14,7 @@ const handleChatEvents = (socket: Socket, io: any, userSocketMap: Record<string,
     const chatData = data.obj;
     
 
-    const { attachments, chat, content, sender, createdAt, _id } = chatData;
+    const { attachments,participants, chat, content, sender, createdAt, _id } = chatData;
     
     const senderId = obj.sender;
 
@@ -24,6 +24,7 @@ const handleChatEvents = (socket: Socket, io: any, userSocketMap: Record<string,
       content,
       sender,
       chat,
+      participants,
       attachments,
     });
     console.log(`New message from ${senderId} in room ${roomId}:`);

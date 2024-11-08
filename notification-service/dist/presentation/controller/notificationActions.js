@@ -9,16 +9,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addBlogController = void 0;
-const addBlogController = (dependencies) => {
-    const { useCases: { addBlogUseCase }, } = dependencies;
+exports.saveNotificationController = void 0;
+const saveNotificationController = (dependencies) => {
+    const { useCases: { saveNotificationUseCase }, } = dependencies;
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
+            const { userId, message } = req.body;
+            if (!userId || !message) {
+                return res.status(400).json({ message: "userId and message are required" });
+            }
+            const notificationData = { userId, message };
+            const savedNotification = yield saveNotificationUseCase(dependencies).execute(notificationData);
+            res.status(201).json({
+                message: "Notification saved successfully",
+                data: savedNotification,
+            });
         }
         catch (error) {
-            console.error("Error adding/updating blog:", error);
+            console.error("Error saving notification:", error);
             res.status(400).json({ message: "Server error", error: error.message });
         }
     });
 };
-exports.addBlogController = addBlogController;
+exports.saveNotificationController = saveNotificationController;

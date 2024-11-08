@@ -23,17 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Notification = void 0;
-const mongoose_1 = __importStar(require("mongoose"));
-const notificationSchema = new mongoose_1.Schema({
-    userId: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-    },
-    message: {
-        type: String,
-        required: true,
-    },
-}, { timestamps: true });
-exports.Notification = mongoose_1.default.model('Notification', notificationSchema);
+exports.dependencies = void 0;
+const repositories = __importStar(require("../infrastructure/database/mongodb/repositories"));
+const useCases = __importStar(require("../application/useCases"));
+exports.dependencies = {
+    useCases,
+    repositories
+};

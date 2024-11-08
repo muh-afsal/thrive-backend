@@ -8,22 +8,9 @@ const notificationSchema: Schema<NotificationEntity> = new Schema(
       ref: 'User',
       required: true,
     },
-    title: {
-      type: String,
-      required: true,
-    },
     message: {
       type: String,
       required: true,
-    },
-    type: {
-      type: String,
-      enum: ['info', 'warning', 'error'],
-      required: true,
-    },
-    isRead: {
-      type: Boolean,
-      default: false,
     },
   },
   { timestamps: true }

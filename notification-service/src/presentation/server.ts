@@ -9,6 +9,8 @@ import { connectRabbitMQ } from "../infrastructure/rabbitMQ/rabbitmqConfig";
 import { notificationConsumer } from "../infrastructure/rabbitMQ/consumer";
 import connectSocketIo from "../infrastructure/socket";
 import http from 'http'
+import { notificationRoutes } from "../infrastructure/routes/notificationRoutes";
+import { dependencies } from "../config/dependencies";
 
 
 dotenv.config();
@@ -32,8 +34,8 @@ app.use(express.urlencoded({ extended: true }));
 const server = http.createServer(app);
 app.use(cookieParser());
 
-// app.use('/', authRoutes(dependencies));
-connectSocketIo(server)
+app.use('/', notificationRoutes(dependencies));
+// connectSocketIo(server)
 
 
 

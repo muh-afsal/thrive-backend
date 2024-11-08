@@ -9,18 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveNotificationUseCase = void 0;
-const saveNotificationUseCase = (dependencies) => {
-    const { repositories: { saveNotificationRepo }, } = dependencies;
-    return {
-        execute: (notification) => __awaiter(void 0, void 0, void 0, function* () {
-            try {
-                yield saveNotificationRepo(notification);
-            }
-            catch (error) {
-                throw new Error((error === null || error === void 0 ? void 0 : error.message) || "Error saving notification");
-            }
-        }),
-    };
-};
-exports.saveNotificationUseCase = saveNotificationUseCase;
+exports.saveNotificationRepo = void 0;
+const notificationSchema_1 = require("../models/notificationSchema");
+const saveNotificationRepo = (notificationData) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log(notificationData, 'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
+        const newNotification = new notificationSchema_1.Notification(notificationData);
+        const savedNotification = yield newNotification.save();
+        return savedNotification;
+    }
+    catch (error) {
+        throw new Error(`Error saving notification: ${error.message}`);
+    }
+});
+exports.saveNotificationRepo = saveNotificationRepo;

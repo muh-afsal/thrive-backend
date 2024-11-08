@@ -1,10 +1,18 @@
-import { INotificationRepository } from "../../domain/useCaseInterface/INotificationUseCase";
-import { Notification } from "../../domain/entities/notification";
+import { IDependencies } from "../../application/interface/IDependencies";
+import { NotificationEntity } from "../../domain/entities/notificationEntity";
 
-export class SendNotificationUseCase {
-  constructor(private notificationRepository: INotificationRepository) {}
+export const saveNotificationUseCase = (dependencies: IDependencies) => {
+  const {
+    repositories: { saveNotificationRepo },
+  } = dependencies;
 
-  async execute(notification: Notification): Promise<void> {
-    await this.notificationRepository.sendNotification(notification);
-  }
-}
+  return {
+    execute: async (notification: NotificationEntity): Promise<void> => {
+      try {
+        await saveNotificationRepo(notification);
+      } catch (error) {
+        throw new Error((error as Error)?.message || "Error saving notification");
+      }
+    },
+  };
+};
